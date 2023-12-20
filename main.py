@@ -2,8 +2,6 @@ import requests
 import json
 
 QUANTITY = 100
-
-# im not a python dev gimme some slack
 base_path = "https://discord.com/billing/partner-promotions/1180231712274387115/"
 url = 'https://api.discord.gx.games/v1/direct-fulfillment'
 payload = {
@@ -28,15 +26,28 @@ headers = {
 
 def gen():
     response = requests.post(url, json=payload, headers=headers)
-    if response.status_code == 429:
-        print("ratelimit")
-        exit(0)
-    token = response.json().get('token', 'No token found')
-    link = base_path + token
-    with open('links.txt', 'a') as file:
-        file.write(link + "\n")
 
-    print(link)
+    # Handling rate limiting
+    if response.status_code == 429:
+        print("Rate limited")
+        exit(0)
+
+    # Checking for successful response
+    if response.status_code // 100 == 2:
+        try:
+            token = response.json().get('token', 'No token found')
+            link = base_path + token
+            with open('links.txt', 'a') as file:
+                file.write(link + "\n")
+            print(link)
+        except json.JSONDecodeError:
+            print("JSONDecodeError: Unable to parse response as JSON.")
+            print("Response text:", response.text)
+        except Exception as e:
+            print("An unexpected error occurred:", str(e))
+    else:
+        print(f"Request failed with status code {response.status_code}")
+        print("Response text:", response.text)
 
 for i in range(QUANTITY):
     gen()
