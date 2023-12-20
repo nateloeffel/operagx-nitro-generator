@@ -1,6 +1,8 @@
 import requests
 import json
 
+QUANTITY = 100
+
 # im not a python dev gimme some slack
 base_path = "https://discord.com/billing/partner-promotions/1180231712274387115/"
 url = 'https://api.discord.gx.games/v1/direct-fulfillment'
@@ -36,5 +38,5 @@ def gen():
 
     print(link)
 
-for i in range(274):
+for i in range(QUANTITY):
     gen()
