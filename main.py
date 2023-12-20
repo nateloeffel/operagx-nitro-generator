@@ -1,5 +1,6 @@
 import requests
 import json
+import string
 
 QUANTITY = 2
 base_path = "https://discord.com/billing/partner-promotions/1180231712274387115/"
@@ -24,20 +25,23 @@ headers = {
     'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 OPR/105.0.0.0'
 }
 
+
 def gen():
     response = requests.post(url, json=payload, headers=headers)
 
     # Handling rate limiting
     if response.status_code == 429:
         print("Rate limited")
-        exit(0)
+        return False
 
     # Checking for successful response
     if response.status_code // 100 == 2:
         try:
             token = response.json().get('token', 'No token found')
             link = base_path + token
-            with open('links.txt', 'a') as file:
+
+            # Write the link to the file 'nitrolinks.txt'
+            with open('nitrolinks.txt', 'a') as file:
                 file.write(link + "\n")
             print(link)
         except json.JSONDecodeError:
@@ -48,6 +52,16 @@ def gen():
     else:
         print(f"Request failed with status code {response.status_code}")
         print("Response text:", response.text)
+
+    return True
+
+rate_limit_count = 0
+while rate_limit_count < 5:
+    if not gen():
+        rate_limit_count += 1
+    else:
+        rate_limit_count = 0
+
 
 for i in range(QUANTITY):
     gen()
