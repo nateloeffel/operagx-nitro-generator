@@ -1,7 +1,7 @@
 import requests
 import json
 
-QUANTITY = 100
+QUANTITY = 2
 base_path = "https://discord.com/billing/partner-promotions/1180231712274387115/"
 url = 'https://api.discord.gx.games/v1/direct-fulfillment'
 payload = {
