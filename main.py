@@ -1,12 +1,10 @@
 import requests
 import json
+import random
 
-QUANTITY = 2
+QUANTITY = 10
 base_path = "https://discord.com/billing/partner-promotions/1180231712274387115/"
 url = 'https://api.discord.gx.games/v1/direct-fulfillment'
-payload = {
-    "partnerUserId": "d05d65629f9b076a55c0661fcf7e9871bbf7052042d26b5185784d29f06081ab"
-}
 
 headers = {
     'authority': 'api.discord.gx.games',
@@ -25,6 +23,13 @@ headers = {
 }
 
 def gen():
+    # Generates 64 character hex code to circumvent partnerUserId restriction
+    hex_code = ''.join(random.choice('0123456789abcdef') for n in range(64))
+
+    payload = {
+        "partnerUserId": f"{hex_code}"
+    }
+
     response = requests.post(url, json=payload, headers=headers)
 
     # Handling rate limiting
