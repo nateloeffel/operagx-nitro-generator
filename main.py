@@ -1,11 +1,16 @@
 import requests
 import json
+import random
 
 QUANTITY = 2
 base_path = "https://discord.com/billing/partner-promotions/1180231712274387115/"
 url = 'https://api.discord.gx.games/v1/direct-fulfillment'
+
+# Generates 64 character hex code to circumvent partnerUserId restriction
+hex_code = ''.join(random.choice('0123456789abcdef') for n in range(64))
+
 payload = {
-    "partnerUserId": "d05d65629f9b076a55c0661fcf7e9871bbf7052042d26b5185784d29f06081ab"
+    "partnerUserId": f"{hex_code}"
 }
 
 headers = {
