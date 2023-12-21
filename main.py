@@ -6,13 +6,6 @@ QUANTITY = 2
 base_path = "https://discord.com/billing/partner-promotions/1180231712274387115/"
 url = 'https://api.discord.gx.games/v1/direct-fulfillment'
 
-# Generates 64 character hex code to circumvent partnerUserId restriction
-hex_code = ''.join(random.choice('0123456789abcdef') for n in range(64))
-
-payload = {
-    "partnerUserId": f"{hex_code}"
-}
-
 headers = {
     'authority': 'api.discord.gx.games',
     'accept': '*/*',
@@ -30,6 +23,13 @@ headers = {
 }
 
 def gen():
+    # Generates 64 character hex code to circumvent partnerUserId restriction
+    hex_code = ''.join(random.choice('0123456789abcdef') for n in range(64))
+
+    payload = {
+        "partnerUserId": f"{hex_code}"
+    }
+    
     response = requests.post(url, json=payload, headers=headers)
 
     # Handling rate limiting
