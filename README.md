@@ -11,4 +11,4 @@ To run:
 Links will be output to 'links.txt'.
 
 # Changing Output Count
-QUANTITY constant in main.py can be changed to desired number of links.
+DESIRED_LINKS_NUM constant in main.py can be changed to desired number of links.
