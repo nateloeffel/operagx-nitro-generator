@@ -12,3 +12,6 @@ Links will be output to 'links.txt'.
 
 # Changing Output Count
 DESIRED_LINKS_NUM constant in main.py can be changed to desired number of links.
+
+# Setting Proxies
+PROXIES constant in main.py can be changed/appended to as needed to avoid rate limiting.
